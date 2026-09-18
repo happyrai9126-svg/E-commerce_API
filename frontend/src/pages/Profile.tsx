@@ -6,6 +6,15 @@ import { formatDate } from '../lib/format'
 import { fadeUp, stagger, transitions } from '../lib/motion'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/**
+ * Account details page at `/profile`.
+ *
+ * Renders the signed-in user's name, username, email, phone number and join
+ * date as a read-only list — there is no update endpoint to edit them through.
+ * Reads straight from the auth context rather than re-fetching, and falls back
+ * to a sign-in prompt in the case <RequireAuth> should already prevent. Takes
+ * no props.
+ */
 export default function Profile() {
   useDocumentTitle('Profile')
 
@@ -33,6 +42,7 @@ export default function Profile() {
     )
   }
 
+  // The read-only rows rendered in the details card, in display order.
   const fields = [
     { label: 'Full name', value: user.full_name },
     { label: 'Username', value: user.username },

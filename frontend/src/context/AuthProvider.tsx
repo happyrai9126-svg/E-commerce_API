@@ -12,6 +12,15 @@ import type { SignupPayload, TokenResponse, User } from '../types/api'
 import { AuthContext } from './auth-context'
 import type { AuthStatus } from './auth-context'
 
+/**
+ * Owns the signed-in session for the whole app.
+ *
+ * Restores a stored token on first paint, exposes login / signup / logout, and
+ * reacts to a token being rejected mid-session by clearing state and bouncing
+ * the user to /login. Renders nothing of its own — it only provides context.
+ *
+ * @param children - The subtree that gets access to the auth context.
+ */
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [status, setStatus] = useState<AuthStatus>(() =>

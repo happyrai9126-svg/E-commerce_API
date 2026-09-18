@@ -2,6 +2,7 @@ import { useReducedMotion } from 'framer-motion'
 import { Fragment, useEffect, useRef } from 'react'
 import { ScrollTrigger, gsap, token, useGSAP } from '../lib/gsap'
 
+/** The lines the pinned section steps through, one per scroll beat. */
 const PHRASES = [
   'Fewer things, chosen well.',
   'Search that actually finds it.',
@@ -12,6 +13,15 @@ const PHRASES = [
 /** Scroll distance, per phrase, that the section stays pinned for. */
 const SCROLL_PER_PHRASE = 100
 
+/**
+ * Scroll-pinned story section on the home page.
+ *
+ * Pins itself in place while the page scrolls and steps through
+ * {@link PHRASES} one at a time, tinting the active line with the accent
+ * colour and advancing a progress bar. Owns the GSAP ScrollTrigger timeline;
+ * when the viewer prefers reduced motion the phrases render as a plain static
+ * list instead. Takes no props.
+ */
 export default function PinnedStory() {
   const root = useRef<HTMLElement>(null)
   const panel = useRef<HTMLDivElement>(null)

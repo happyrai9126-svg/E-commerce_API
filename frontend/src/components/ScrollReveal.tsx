@@ -6,6 +6,7 @@ import { gsap, useGSAP } from '../lib/gsap'
 /** Marks the spans the reveal animates. Also used by useWordReveal. */
 export const WORD_ATTR = 'data-reveal-word'
 
+/** Tuning options shared by {@link useWordReveal} and {@link ScrollReveal}. */
 type WordRevealOptions = {
   /** Per-word offset in seconds; the total is capped so long paragraphs
    *  don't crawl. */
@@ -23,6 +24,13 @@ type WordRevealOptions = {
  * Animates every [data-reveal-word] inside `scope` as it scrolls into view.
  * Use this directly when you need custom markup; use <ScrollReveal> for the
  * common case of plain text.
+ *
+ * Manages a single GSAP timeline bound to a ScrollTrigger on `scope`. It holds
+ * no state and returns nothing — the effect is entirely on the DOM inside the
+ * scope, and the trigger is torn down when the scope unmounts.
+ *
+ * @param scope - Ref to the element whose word spans should animate.
+ * @param options - Stagger, delay, trigger start, repeat and disabled flags.
  */
 export function useWordReveal(
   scope: React.RefObject<HTMLElement | null>,
@@ -70,6 +78,7 @@ export function useWordReveal(
   )
 }
 
+/** Props for {@link ScrollReveal}. */
 type ScrollRevealProps = WordRevealOptions & {
   /** Plain text — it gets split on whitespace, one span per word. */
   children: string
@@ -84,6 +93,15 @@ type ScrollRevealProps = WordRevealOptions & {
  *
  * Each word fades in and lifts slightly as the block enters the viewport.
  * Deliberately understated — this is polish, not the hero's storytelling.
+ *
+ * Renders the text as one span per word inside the chosen tag and hands those
+ * spans to {@link useWordReveal}. When the viewer prefers reduced motion the
+ * animation is skipped and the text renders plainly.
+ *
+ * @param children - Plain text; split on whitespace, one span per word.
+ * @param as - Element type to render; defaults to a paragraph.
+ * @param className - Classes applied to the rendered element.
+ * @param options - Remaining {@link useWordReveal} tuning options.
  */
 export default function ScrollReveal({
   children,
@@ -120,7 +138,14 @@ export default function ScrollReveal({
   )
 }
 
-/** Convenience wrapper for custom markup that supplies its own word spans. */
+/**
+ * Convenience wrapper for custom markup that supplies its own word spans.
+ *
+ * Renders an inline-block span tagged with {@link WORD_ATTR} so
+ * {@link useWordReveal} picks it up alongside text-derived words.
+ *
+ * @param children - The word (or inline content) to animate as one unit.
+ */
 export function RevealWord({ children }: { children: ReactNode }) {
   return (
     <span

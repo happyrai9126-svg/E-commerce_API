@@ -8,6 +8,13 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle'
 /**
  * Landing spot after "Buy now". Deliberately minimal — the full orders
  * history is Phase 5.
+ *
+ * Renders a confirmation tick, a one-line summary of what was bought, and
+ * links onward to the orders list and the shop. The summary is read from
+ * router state, which arrives in one of two shapes depending on whether the
+ * user came from a product card's "Buy now" or from a cart checkout; a direct
+ * visit with no state falls back to a generic message. Sits behind
+ * <RequireAuth>, and takes no props.
  */
 export default function OrderConfirmed() {
   useDocumentTitle('Order placed')

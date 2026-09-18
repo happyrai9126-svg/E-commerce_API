@@ -1,4 +1,9 @@
-/** Placeholder card matching ProductCard's shape, so the grid doesn't jump. */
+/**
+ * Placeholder card matching ProductCard's shape, so the grid doesn't jump.
+ *
+ * Renders pulsing blocks in place of the image, title and price while a search
+ * is in flight. Takes no props.
+ */
 export default function ProductSkeleton() {
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-surface">

@@ -16,6 +16,7 @@ import {
 import type { SignupPayload } from '../types/api'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/** Blank form state; also fixes the order the fields are rendered in. */
 const EMPTY: SignupPayload = {
   full_name: '',
   username: '',
@@ -24,6 +25,15 @@ const EMPTY: SignupPayload = {
   strong_password: '',
 }
 
+/**
+ * Account creation page at `/signup`.
+ *
+ * Renders the full signup form inside {@link AuthLayout}, with a banner above
+ * the fields for server errors. Owns the form values, per-field errors and
+ * submitting state; validation mirrors the backend schema so most mistakes
+ * surface before a round trip. A successful signup also signs the user in and
+ * sends them home. Takes no props.
+ */
 export default function Signup() {
   useDocumentTitle('Create account')
 
@@ -35,6 +45,10 @@ export default function Signup() {
   const [banner, setBanner] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
+  /**
+   * Record a keystroke, re-checking the field live once it is showing an error
+   * so the message clears as soon as the input becomes valid.
+   */
   function update(field: keyof SignupPayload, value: string) {
     setValues((prev) => ({ ...prev, [field]: value }))
 
@@ -61,6 +75,13 @@ export default function Signup() {
     })
   }
 
+  /**
+   * Validate locally, then create the account and redirect home.
+   *
+   * Values are trimmed before being sent (the password deliberately is not).
+   * Local failures stop the submit; server failures fill the banner and any
+   * field errors the API reported.
+   */
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 

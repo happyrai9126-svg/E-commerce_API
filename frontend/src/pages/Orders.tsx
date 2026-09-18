@@ -11,8 +11,18 @@ import { formatPrice } from '../lib/products'
 import type { OrderItem } from '../types/api'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/** Where the orders fetch currently stands. */
 type Status = 'loading' | 'ready' | 'error'
 
+/**
+ * Purchase history page at `/orders`.
+ *
+ * Fetches the user's orders on mount, sorts them newest-first, and renders
+ * them as a revealing list alongside an order-count and total-spent summary.
+ * Falls back to {@link OrdersSkeleton} while loading, {@link NoOrders} when
+ * there is nothing to show, and a retry prompt on failure. Owns the orders,
+ * status and retry state. Sits behind <RequireAuth>, and takes no props.
+ */
 export default function Orders() {
   useDocumentTitle('Orders')
 
@@ -178,6 +188,12 @@ export default function Orders() {
   )
 }
 
+/**
+ * Placeholder shown when the user has not ordered anything yet.
+ *
+ * Renders a parcel icon, a short explanation and a link through to the shop.
+ * Takes no props.
+ */
 function NoOrders() {
   return (
     <motion.div
@@ -222,6 +238,10 @@ function NoOrders() {
   )
 }
 
+/**
+ * Pulsing placeholder rows shown while the order history is loading.
+ * Takes no props.
+ */
 function OrdersSkeleton() {
   return (
     <ul className="flex flex-col gap-3" aria-label="Loading orders">

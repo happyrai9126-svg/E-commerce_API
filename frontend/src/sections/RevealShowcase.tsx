@@ -4,6 +4,9 @@ import ScrollReveal from '../components/ScrollReveal'
  * Example usage of the reusable word-by-word reveal. The same <ScrollReveal>
  * drops onto any headline or paragraph on Shop, Cart, Collections, Journal —
  * no per-page setup.
+ *
+ * Renders a centred "How it works" block whose eyebrow, headline and paragraph
+ * each reveal word by word as the section scrolls into view. Takes no props.
  */
 export default function RevealShowcase() {
   return (

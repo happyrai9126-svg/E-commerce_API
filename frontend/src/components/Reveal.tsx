@@ -12,6 +12,7 @@ const variants: Variants = {
   }),
 }
 
+/** Props for {@link Reveal}. */
 type RevealProps = {
   children: ReactNode
   /** Seconds to hold before the reveal starts. */
@@ -23,6 +24,11 @@ type RevealProps = {
 /**
  * Reveals its children once they scroll into view. Use for anything below
  * the fold; above-the-fold entrances animate on mount instead.
+ *
+ * @param children - The content to reveal.
+ * @param delay - Seconds to hold before the reveal starts.
+ * @param className - Classes applied to the wrapper element.
+ * @param as - Which element to render as; defaults to a div.
  */
 export default function Reveal({
   children,

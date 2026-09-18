@@ -11,6 +11,15 @@ import { parseApiError } from '../lib/errors'
 import { hasErrors, validateLogin, validateLoginField } from '../lib/validation'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/**
+ * Sign-in page at `/login`.
+ *
+ * Renders the username and password fields inside {@link AuthLayout}, with a
+ * banner above them for server errors and for the "your session expired"
+ * notice. Owns the form values, per-field errors and submitting state. On
+ * success it returns the user to the page that sent them here, or home.
+ * Takes no props.
+ */
 export default function Login() {
   useDocumentTitle('Sign in')
 
@@ -26,6 +35,7 @@ export default function Login() {
   const redirectTo =
     (location.state as { from?: string } | null)?.from ?? '/'
 
+  /** Record a keystroke and drop any error currently shown on that field. */
   function update(field: 'username' | 'password', value: string) {
     setValues((prev) => ({ ...prev, [field]: value }))
     setFieldErrors((prev) => {
@@ -36,6 +46,7 @@ export default function Login() {
     })
   }
 
+  /** Validate as the user leaves a field, rather than only on submit. */
   function handleBlur(field: 'username' | 'password') {
     const message = validateLoginField(field, values[field])
     setFieldErrors((prev) => {
@@ -46,6 +57,12 @@ export default function Login() {
     })
   }
 
+  /**
+   * Validate locally, then sign in and redirect.
+   *
+   * Local failures stop the submit and mark the fields; server failures fill
+   * the banner and any field errors the API reported.
+   */
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 

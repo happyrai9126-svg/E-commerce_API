@@ -2,7 +2,14 @@ import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { transitions } from '../../lib/motion'
 
-/** Wraps a route's content so pages cross-fade instead of snapping. */
+/**
+ * Wraps a route's content so pages cross-fade instead of snapping.
+ *
+ * Renders the page inside a <main> that fades and shifts on enter and exit;
+ * the <AnimatePresence> in App.tsx drives the exit half.
+ *
+ * @param children - The routed page content.
+ */
 export default function PageTransition({ children }: { children: ReactNode }) {
   return (
     <motion.main

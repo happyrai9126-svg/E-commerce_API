@@ -3,6 +3,7 @@ import { useId, useState } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { transitions } from '../../lib/motion'
 
+/** Props for {@link TextField}; also accepts any native <input> prop but `id`. */
 type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> & {
   label: string
   /** Quiet helper text; hidden while an error is showing. */
@@ -10,6 +11,21 @@ type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> & {
   error?: string
 }
 
+/**
+ * Labelled text input used by every form in the app.
+ *
+ * Renders a label, the input, and a note line beneath that cross-fades between
+ * the hint and the error. Password fields also get a Show/Hide toggle, whose
+ * revealed state is the only state this component owns. Ids are generated with
+ * useId so the label and note stay wired up without the caller supplying one.
+ *
+ * @param label - Text shown above the input.
+ * @param hint - Quiet helper text; hidden while an error is showing.
+ * @param error - Error message; also switches the input to its invalid styling.
+ * @param type - Input type; `password` enables the reveal toggle.
+ * @param className - Classes applied to the wrapping element, not the input.
+ * @param props - Any remaining native <input> props, spread onto the input.
+ */
 export default function TextField({
   label,
   hint,

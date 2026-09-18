@@ -1,11 +1,16 @@
 import { createContext } from 'react'
 import type { CartItem, PurchasePayload } from '../types/api'
 
+/**
+ * Where the cart fetch currently stands: `idle` before sign-in, then
+ * `loading`, and finally `ready` or `error`.
+ */
 export type CartStatus = 'idle' | 'loading' | 'ready' | 'error'
 
 /** What happened when the user pressed "Add to cart". */
 export type AddResult = 'added' | 'duplicate'
 
+/** The cart state and actions <CartProvider> exposes through useCart(). */
 export type CartContextValue = {
   items: CartItem[]
   status: CartStatus
@@ -24,4 +29,8 @@ export type CartContextValue = {
   isInCart: (imageUrl: string) => boolean
 }
 
+/**
+ * Cart context, `null` until a <CartProvider> supplies a value — which is why
+ * useCart() throws when called outside the provider.
+ */
 export const CartContext = createContext<CartContextValue | null>(null)

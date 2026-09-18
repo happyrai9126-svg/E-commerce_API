@@ -12,7 +12,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
  */
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
-/** Reads a design token off :root so animations stay tied to the palette. */
+/**
+ * Reads a design token off :root so animations stay tied to the palette.
+ *
+ * @param name - The CSS custom property to read, e.g. '--color-accent'.
+ * @param fallback - Value returned when the property is unset or there is no
+ *   document (server-side rendering).
+ * @returns The resolved token value, trimmed, or `fallback`.
+ */
 export function token(name: string, fallback: string) {
   if (typeof window === 'undefined') return fallback
   const value = getComputedStyle(document.documentElement)

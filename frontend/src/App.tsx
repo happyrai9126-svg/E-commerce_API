@@ -14,6 +14,15 @@ import Profile from './pages/Profile'
 import Shop from './pages/Shop'
 import Signup from './pages/Signup'
 
+/**
+ * Application shell and route table.
+ *
+ * Renders the persistent navbar and footer around the routed page, wrapping
+ * each route in <PageTransition> and keying it on the pathname so
+ * <AnimatePresence> can cross-fade between pages. Cart, orders, profile and
+ * the order-confirmed screen sit behind <RequireAuth>; login and signup sit
+ * behind <RedirectIfAuthed>. Any unmatched path renders <NotFound>.
+ */
 export default function App() {
   const location = useLocation()
 

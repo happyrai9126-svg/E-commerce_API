@@ -1,12 +1,24 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { transitions } from '../../lib/motion'
 
+/** Props for {@link SearchField}. */
 type SearchFieldProps = {
   value: string
   onChange: (value: string) => void
   busy?: boolean
 }
 
+/**
+ * Rounded search input with a magnifier icon, a spinner while a search is in
+ * flight, and a Clear button once there is text.
+ *
+ * Fully controlled — it holds no state and reports every keystroke through
+ * `onChange`; debouncing is the caller's concern.
+ *
+ * @param value - The current query text.
+ * @param onChange - Called with the new query on every keystroke, and with "" when Clear is pressed.
+ * @param busy - Shows the spinner while a request is in flight.
+ */
 export default function SearchField({ value, onChange, busy }: SearchFieldProps) {
   return (
     <div className="relative">

@@ -13,13 +13,24 @@ import { searchProducts } from '../lib/products'
 import type { Product } from '../types/api'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/** Where the search currently stands: `idle` before any query is entered. */
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
+/** Starter queries offered as chips before the shopper types anything. */
 const SUGGESTIONS = ['ceramics', 'linen', 'desk lamp', 'oak stool', 'wool throw']
 
 /** The backend hardcodes per_page=9, so this is the most we can ever show. */
 const SKELETON_COUNT = 9
 
+/**
+ * Product search page at `/shop`.
+ *
+ * Renders the search field over either the results grid, a skeleton grid while
+ * loading, or an empty/error state. Owns the query input, the debounced query
+ * actually sent to the API, the results and the request status; the live query
+ * is mirrored into `?q=` so a search can be shared or reloaded, and each new
+ * keystroke aborts the request it supersedes. Takes no props.
+ */
 export default function Shop() {
   useDocumentTitle('Shop')
 
@@ -196,6 +207,17 @@ export default function Shop() {
   )
 }
 
+/**
+ * Centred placeholder card shown in place of the results grid.
+ *
+ * Covers all three no-results cases: nothing searched yet, a search that
+ * matched nothing, and a failed request.
+ *
+ * @param title - Headline for the state.
+ * @param body - Supporting line beneath the headline.
+ * @param tone - `quiet` for the neutral styling, `error` for the red one.
+ * @param action - Optional button, e.g. retrying a failed search.
+ */
 function EmptyState({
   title,
   body,

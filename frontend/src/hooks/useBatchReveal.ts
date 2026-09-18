@@ -9,6 +9,16 @@ import { ScrollTrigger, gsap, useGSAP } from '../lib/gsap'
  * for whole cards or rows. ScrollTrigger.batch() gives each element its own
  * trigger, so items arrive as you reach them rather than all firing when the
  * container's top edge appears.
+ *
+ * Owns the GSAP triggers for the matched elements and reverts them whenever
+ * the dependencies change, so a re-rendered list does not leak triggers. It
+ * holds no state and returns nothing; the effect is entirely on the DOM inside
+ * `scope`. Skipped when the viewer prefers reduced motion.
+ *
+ * @param scope - Ref to the container whose descendants should be revealed.
+ * @param selector - CSS selector matching the elements to animate, e.g. '[data-card]'.
+ * @param dependencies - Values that, when changed, rebuild the triggers —
+ *   typically the list being rendered.
  */
 export function useBatchReveal(
   scope: RefObject<HTMLElement | null>,

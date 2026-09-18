@@ -1,3 +1,9 @@
+/**
+ * TypeScript mirrors of the backend's Pydantic schemas.
+ *
+ * Each type is annotated with the `app/schemas/*.py` model it corresponds to,
+ * so a change on either side has an obvious counterpart on the other.
+ */
 /** Mirrors app/schemas/users.py :: Users_Response */
 export type User = {
   id: number

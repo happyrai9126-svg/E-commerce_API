@@ -14,6 +14,12 @@ const priceFormatter = new Intl.NumberFormat(LOCALE, {
   maximumFractionDigits: 0,
 })
 
+/**
+ * Render a raw integer price as a localised currency string.
+ *
+ * @param price - The bare integer price as stored by the backend.
+ * @returns The formatted price, e.g. `"$4,312"`.
+ */
 export function formatPrice(price: number) {
   return priceFormatter.format(price)
 }

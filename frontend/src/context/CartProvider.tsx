@@ -15,6 +15,17 @@ import type { CartItem, PurchasePayload } from '../types/api'
 import { CartContext } from './cart-context'
 import type { AddResult, CartStatus } from './cart-context'
 
+/**
+ * Owns the shopping cart for the whole app.
+ *
+ * Loads the cart when the user signs in and clears it when they sign out,
+ * exposes add / setQuantity / remove / checkout, and derives the count and
+ * total the navbar and cart page read. Quantity and removal updates are
+ * applied optimistically and reconciled against the server on failure.
+ * Renders nothing of its own — it only provides context.
+ *
+ * @param children - The subtree that gets access to the cart context.
+ */
 export default function CartProvider({ children }: { children: ReactNode }) {
   const { status: authStatus } = useAuth()
   const [items, setItems] = useState<CartItem[]>([])

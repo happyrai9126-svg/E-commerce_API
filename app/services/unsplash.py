@@ -1,3 +1,11 @@
+"""
+Unsplash-backed product catalogue.
+
+The project has no products table — the storefront's catalogue is synthesised
+from Unsplash photo search results, with a price attached to each photo so the
+images can stand in for purchasable products.
+"""
+
 from dotenv import load_dotenv
 import requests
 import os
@@ -9,6 +17,23 @@ load_dotenv()
 unsplash_url = "https://api.unsplash.com/search/photos"
 
 def products_search(query: str):
+    """
+    Search Unsplash and shape the results into products.
+
+    Each returned photo becomes a product: its alt description is the title,
+    its regular-size URL is the image, and a random price is assigned since
+    Unsplash has no pricing of its own.
+
+    Args:
+        query: The free-text search term to send to Unsplash.
+
+    Returns:
+        list[dict]: Up to nine products, each a dict with ``title``,
+        ``image_url`` and ``price`` keys.
+
+    Raises:
+        Exception: If the Unsplash API responds with anything other than 200.
+    """
     headers = {"Authorization": f"Client-ID {os.getenv('UNSPLASH_ACCESS_KEY')}"}
 
     params = {"query": query, "per_page": 9}
@@ -29,6 +54,3 @@ def products_search(query: str):
 
         products.append(product)
     return products
-
-
-

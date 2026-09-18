@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { transitions } from '../../lib/motion'
 
+/** Props for {@link QuantityStepper}. */
 type QuantityStepperProps = {
   value: number
   onChange: (next: number) => void
@@ -12,11 +13,28 @@ type QuantityStepperProps = {
   label?: string
 }
 
+/** Per-size height and track widths for the wrapper, buttons and value. */
 const sizes = {
   sm: { wrap: 'h-9', button: 'w-8 text-[15px]', value: 'w-6 text-[13.5px]' },
   md: { wrap: 'h-10', button: 'w-9 text-[16px]', value: 'w-8 text-[14.5px]' },
 }
 
+/**
+ * Rounded "− n +" control for picking a quantity.
+ *
+ * Renders a decrement button, the current value (which slides as it changes),
+ * and an increment button. The value is fully controlled by the caller; this
+ * component keeps no state of its own.
+ *
+ * @param value - The current quantity to display.
+ * @param onChange - Called with the new quantity when either button is pressed.
+ * @param onDecrementBelowMin - Called instead of onChange when "−" is pressed at 1;
+ *   without it, 1 is the floor and "−" is disabled there.
+ * @param size - `sm` or `md` sizing preset.
+ * @param disabled - Dims the control and blocks both buttons.
+ * @param busy - Blocks both buttons while a change is in flight, without dimming.
+ * @param label - Accessible group label; defaults to "Quantity".
+ */
 export default function QuantityStepper({
   value,
   onChange,
@@ -31,6 +49,7 @@ export default function QuantityStepper({
   // (the cart removes the row); otherwise 1 is the floor.
   const canDecrement = !disabled && (value > 1 || Boolean(onDecrementBelowMin))
 
+  /** Step down by one, or hand off to the caller when already at the floor. */
   function decrement() {
     if (value > 1) onChange(value - 1)
     else onDecrementBelowMin?.()

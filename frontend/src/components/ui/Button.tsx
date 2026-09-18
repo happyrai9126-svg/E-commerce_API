@@ -5,6 +5,7 @@ import { transitions } from '../../lib/motion'
 
 // HTMLMotionProps rather than ButtonHTMLAttributes: React's native drag and
 // animation handlers collide with Framer Motion's props of the same name.
+/** Props for {@link Button}; also accepts any motion <button> prop. */
 type ButtonProps = HTMLMotionProps<'button'> & {
   children: ReactNode
   variant?: 'primary' | 'secondary'
@@ -12,6 +13,7 @@ type ButtonProps = HTMLMotionProps<'button'> & {
   fullWidth?: boolean
 }
 
+/** Per-variant colour and shadow classes. */
 const styles = {
   primary:
     'bg-accent text-white shadow-[0_1px_2px_rgba(37,99,235,0.3),0_8px_24px_-14px_rgba(37,99,235,0.7)] hover:bg-accent-hover',
@@ -19,6 +21,21 @@ const styles = {
     'border border-line-strong bg-surface text-ink hover:border-accent-ring hover:text-accent',
 }
 
+/**
+ * The app's pill-shaped button.
+ *
+ * Renders its children in a rounded button that lifts slightly on hover, with
+ * an optional spinner in front of the label while `loading`. A loading button
+ * is disabled, so it cannot be double-submitted.
+ *
+ * @param children - The button label.
+ * @param variant - `primary` for the filled accent style, `secondary` for the outlined one.
+ * @param loading - Shows a spinner and disables the button.
+ * @param fullWidth - Stretches the button to fill its container.
+ * @param disabled - Disables the button and suppresses its hover motion.
+ * @param className - Extra classes appended after the variant styles.
+ * @param props - Any remaining motion <button> props, spread onto the element.
+ */
 export default function Button({
   children,
   variant = 'primary',

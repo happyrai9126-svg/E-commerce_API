@@ -2,12 +2,21 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { fade, fadeUp, stagger, transitions } from '../lib/motion'
 
+/** The three figures shown in the row beneath the hero's call to action. */
 const stats = [
   { value: '2,400+', label: 'Pieces in the catalogue' },
   { value: '48h', label: 'Average delivery window' },
   { value: '30 days', label: 'No-questions returns' },
 ]
 
+/**
+ * Landing-page hero.
+ *
+ * Renders a soft radial wash behind a staggered column: an eyebrow line, the
+ * headline and supporting copy, the Shop and sign-up calls to action, and the
+ * {@link stats} row. Everything animates in on mount rather than on scroll,
+ * since it sits above the fold. Takes no props.
+ */
 export default function Hero() {
   return (
     <section className="relative overflow-hidden">

@@ -11,8 +11,21 @@ import type { Product } from '../../types/api'
 import ScrollReveal from '../ScrollReveal'
 import QuantityStepper from '../ui/QuantityStepper'
 
+/** Inline status line under the buttons: success, a neutral note, or an error. */
 type Feedback = { tone: 'ok' | 'note' | 'bad'; text: string } | null
 
+/**
+ * Displays a single product card with image, title, price, a quantity stepper,
+ * and "Add to cart" / "Buy now" buttons.
+ *
+ * The image fades in once loaded and falls back to an "Image unavailable" note
+ * if it errors. Both actions send signed-out visitors to /login first,
+ * remembering the current page so they come back here. Feedback from either
+ * action is shown inline beneath the buttons; "Buy now" navigates to the
+ * confirmation page on success.
+ *
+ * @param product - The product to display (title, image_url, price).
+ */
 export default function ProductCard({ product }: { product: Product }) {
   const [loaded, setLoaded] = useState(false)
   const [failed, setFailed] = useState(false)
@@ -36,6 +49,7 @@ export default function ProductCard({ product }: { product: Product }) {
     quantity,
   }
 
+  /** Send the visitor to /login, remembering this page so they return to it. */
   function requireLogin() {
     navigate('/login', {
       replace: false,
@@ -43,6 +57,12 @@ export default function ProductCard({ product }: { product: Product }) {
     })
   }
 
+  /**
+   * Add the chosen quantity to the cart and report the outcome inline.
+   *
+   * Resets the stepper to 1 on a fresh add, and says so instead when the
+   * product was already in the cart.
+   */
   async function handleAddToCart() {
     if (!user) return requireLogin()
 
@@ -66,6 +86,10 @@ export default function ProductCard({ product }: { product: Product }) {
     }
   }
 
+  /**
+   * Order the chosen quantity immediately, bypassing the cart, then navigate
+   * to the confirmation page. Failures stay on the card as inline feedback.
+   */
   async function handleBuyNow() {
     if (!user) return requireLogin()
 

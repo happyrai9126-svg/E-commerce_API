@@ -1,3 +1,10 @@
+/**
+ * Browser entry point.
+ *
+ * Mounts <App> into #root inside the router and the auth and cart providers,
+ * which is the nesting order the rest of the app assumes: CartProvider reads
+ * auth status, and AuthProvider navigates on session expiry.
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'

@@ -3,6 +3,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { fadeUp, stagger, transitions } from '../lib/motion'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/**
+ * Catch-all 404 page for any unmatched route.
+ *
+ * Renders a centred message that names the path that was requested, plus links
+ * back to the home page and the shop. Takes no props.
+ */
 export default function NotFound() {
   useDocumentTitle('Page not found')
 

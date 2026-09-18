@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 
+/** The three link columns rendered on the right-hand side of the footer. */
 const columns = [
   {
     heading: 'Shop',
@@ -27,6 +28,12 @@ const columns = [
   },
 ]
 
+/**
+ * Site-wide footer.
+ *
+ * Renders the brand mark and tagline alongside the Shop, Company and Legal
+ * link columns, with a copyright line beneath. Takes no props.
+ */
 export default function Footer() {
   return (
     <footer className="border-t border-line bg-surface">

@@ -1,3 +1,7 @@
+/**
+ * API client for the cart and order endpoints, plus the two totals the cart
+ * and navbar derive from a list of items.
+ */
 import { api } from './api'
 import type { CartItem, MessageResponse, OrderItem, PurchasePayload } from '../types/api'
 
@@ -44,10 +48,22 @@ export async function fetchOrders() {
   return data
 }
 
+/**
+ * Sum the price of every line in a cart.
+ *
+ * @param items - The cart items to total.
+ * @returns The combined `price * quantity` across all items.
+ */
 export function cartTotal(items: CartItem[]) {
   return items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 }
 
+/**
+ * Count the total number of units in a cart.
+ *
+ * @param items - The cart items to count.
+ * @returns The summed quantity across all items, used for the navbar badge.
+ */
 export function cartCount(items: CartItem[]) {
   return items.reduce((sum, item) => sum + item.quantity, 0)
 }

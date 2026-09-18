@@ -9,6 +9,15 @@ import { formatPrice } from '../lib/products'
 import type { CartItem } from '../types/api'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
+/**
+ * Shopping cart page at `/cart`.
+ *
+ * Renders one {@link CartRow} per item with a running summary and a checkout
+ * button, falling back to {@link CartSkeleton} on first load and
+ * {@link EmptyCart} when there is nothing saved. Cart data comes from the cart
+ * context; the page itself only owns the checkout in-flight and error state.
+ * Sits behind <RequireAuth>, and takes no props.
+ */
 export default function Cart() {
   useDocumentTitle('Cart')
 
@@ -20,6 +29,11 @@ export default function Cart() {
 
   const loading = status === 'loading' && items.length === 0
 
+  /**
+   * Order every row in the cart, then navigate to the confirmation page with
+   * what was bought. A partial failure keeps the user here with the message
+   * checkout() reported.
+   */
   async function handleBuyNow() {
     setPlacing(true)
     setCheckoutError(null)
@@ -167,6 +181,19 @@ export default function Cart() {
   )
 }
 
+/**
+ * One line in the cart: thumbnail, title, unit price, quantity stepper and a
+ * Remove button.
+ *
+ * Animates in on mount and slides out when removed. Stateless — the quantity
+ * and removal are both reported upward.
+ *
+ * @param item - The cart item to render.
+ * @param canModify - Whether the quantity and remove controls are usable; false
+ *   when the API did not return item ids to address.
+ * @param onQuantity - Called with the new quantity when the stepper changes.
+ * @param onRemove - Called when Remove is pressed, or when "−" is pressed at 1.
+ */
 function CartRow({
   item,
   canModify,
@@ -242,6 +269,12 @@ function CartRow({
   )
 }
 
+/**
+ * Placeholder shown when the cart has no items.
+ *
+ * Renders a cart icon, a short explanation and a link through to the shop.
+ * Takes no props.
+ */
 function EmptyCart() {
   return (
     <motion.div
@@ -284,6 +317,10 @@ function EmptyCart() {
   )
 }
 
+/**
+ * Pulsing placeholder rows shown while the cart is loading for the first time.
+ * Takes no props.
+ */
 function CartSkeleton() {
   return (
     <ul className="flex flex-col gap-3" aria-label="Loading cart">

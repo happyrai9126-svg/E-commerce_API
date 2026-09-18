@@ -1,3 +1,6 @@
+/**
+ * Normalises axios/FastAPI errors into a single shape the forms can render.
+ */
 import { isAxiosError } from 'axios'
 
 export type ApiError = {

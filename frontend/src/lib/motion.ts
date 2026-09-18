@@ -5,8 +5,10 @@ import type { Transition, Variants } from 'framer-motion'
  * movement should be felt more than seen.
  */
 
+/** Cubic-bezier easing used by every transition in the app. */
 export const easeOutSoft = [0.22, 1, 0.36, 1] as const
 
+/** The two durations everything animates on: `soft` for entrances, `quick` for interactions. */
 export const transitions = {
   soft: { duration: 0.55, ease: easeOutSoft } satisfies Transition,
   quick: { duration: 0.25, ease: easeOutSoft } satisfies Transition,

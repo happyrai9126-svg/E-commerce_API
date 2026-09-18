@@ -14,16 +14,36 @@ import { transitions } from '../../lib/motion'
 const publicLinks = [{ label: 'Shop', to: '/shop' }]
 const signedInLinks = [{ label: 'Orders', to: '/orders' }]
 
+/**
+ * Take the first letter of a name for the account avatar.
+ *
+ * @param name - The user's full name.
+ * @returns The uppercased first character, or "?" for a blank name.
+ */
 function initialOf(name: string) {
   return name.trim().charAt(0).toUpperCase() || '?'
 }
 
+/**
+ * Take the first word of a name, for the compact greeting in the nav.
+ *
+ * @param name - The user's full name.
+ * @returns The first whitespace-separated word, or the name unchanged.
+ */
 function firstNameOf(name: string) {
   return name.trim().split(/\s+/)[0] || name
 }
 
 
-/** Cart icon with a live item-count badge. */
+/**
+ * Cart icon with a live item-count badge.
+ *
+ * Renders a link to /cart with a trolley icon; the badge pops in whenever the
+ * count is above zero and caps its label at "99+".
+ *
+ * @param count - Number of units in the cart, shown in the badge.
+ * @param onClick - Optional click handler, used to close the mobile menu.
+ */
 function CartLink({ count, onClick }: { count: number; onClick?: () => void }) {
   return (
     <Link
@@ -63,12 +83,23 @@ function CartLink({ count, onClick }: { count: number; onClick?: () => void }) {
 }
 
 
+/** Links shown inside the account dropdown. */
 const accountLinks = [
   { label: 'Orders', to: '/orders' },
   { label: 'Profile', to: '/profile' },
 ]
 
-/** Avatar + name that opens a small account menu. */
+/**
+ * Avatar + name that opens a small account menu.
+ *
+ * Owns the open/closed state of the dropdown and closes it on an outside
+ * pointer press or the Escape key. The menu itself lists the account links and
+ * a sign-out button.
+ *
+ * @param fullName - Name shown beside the avatar.
+ * @param initial - Single letter rendered inside the avatar circle.
+ * @param onSignOut - Called when the sign-out item is chosen.
+ */
 function AccountMenu({
   fullName,
   initial,
@@ -84,9 +115,11 @@ function AccountMenu({
   useEffect(() => {
     if (!open) return
 
+    /** Close the menu when a press lands outside it. */
     function onPointerDown(event: PointerEvent) {
       if (!wrap.current?.contains(event.target as Node)) setOpen(false)
     }
+    /** Close the menu on Escape. */
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') setOpen(false)
     }
@@ -178,6 +211,15 @@ function AccountMenu({
   )
 }
 
+/**
+ * Sticky site header.
+ *
+ * Renders the brand mark, the primary nav links (Orders appears only once
+ * signed in), the cart icon with its badge, and either the account menu or the
+ * sign-in / sign-up actions. The bar gains a border and blurred background
+ * once the page is scrolled, and collapses into a toggled panel on mobile.
+ * Takes no props — it reads everything from the auth and cart contexts.
+ */
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -190,6 +232,7 @@ export default function Navbar() {
 
   useMotionValueEvent(scrollY, 'change', (y) => setScrolled(y > 8))
 
+  /** Sign out, close the mobile menu, and return to the home page. */
   function handleSignOut() {
     logout()
     setMenuOpen(false)

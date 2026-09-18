@@ -1,4 +1,7 @@
 /**
+ * Date and time formatting helpers for timestamps returned by the API.
+ */
+/**
  * The API serialises datetimes without a timezone offset (e.g.
  * "2026-08-31T19:58:34"), which JavaScript parses as local time. That matches
  * a server running in the same zone as the viewer; it will drift otherwise.

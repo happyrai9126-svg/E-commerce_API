@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { fade, fadeUp, stagger } from '../../lib/motion'
 
+/** Props for {@link AuthLayout}. */
 type AuthLayoutProps = {
   title: string
   subtitle: string
@@ -11,6 +12,18 @@ type AuthLayoutProps = {
   footer: ReactNode
 }
 
+/**
+ * Centred card layout shared by the login and signup pages.
+ *
+ * Renders a soft radial glow behind a staggered column: the heading and
+ * subtitle, the bordered card holding the form, a footer line, and a link back
+ * to the home page.
+ *
+ * @param title - Headline above the card.
+ * @param subtitle - Supporting line under the headline.
+ * @param children - The form to render inside the card.
+ * @param footer - Rendered under the card — usually the link to the other auth page.
+ */
 export default function AuthLayout({
   title,
   subtitle,
