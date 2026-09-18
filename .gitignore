@@ -25,3 +25,22 @@ dist-ssr
 
 .env
 
+
+# ============================
+# Python
+# ============================
+__pycache__/
+*.py[cod]
+*.so
+venv/
+env/
+.venv/
+*.egg-info/
+
+# pytest / testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Claude Code local session data
+.claude/
