@@ -27,7 +27,10 @@ from fastapi.middleware.cors import CORSMiddleware
 # API, so browsers require an explicit CORS allowance for it.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://e-commerce-api-cyan-alpha.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
